@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 class PaymentProvider extends ChangeNotifier {
   Map<String, dynamic>? paymentIntentData;
+  bool isSucceeded = false;
 
   Future<void> makePayment() async {
     final url = Uri.parse("cloud function url");
@@ -23,6 +25,7 @@ class PaymentProvider extends ChangeNotifier {
             merchantCountryCode: 'US',
             merchantDisplayName: 'Vendor A'));
     notifyListeners();
+    displayPaymentSheet();
   }
 
   Future<void> displayPaymentSheet() async {
@@ -32,9 +35,15 @@ class PaymentProvider extends ChangeNotifier {
               clientSecret: paymentIntentData!['paymentIntent'],
               confirmPayment: true));
       paymentIntentData = null;
+      isSucceeded = true;
       notifyListeners();
     } catch (e) {
       print(e);
+    } finally {
+      Timer(Duration(seconds: 2), () {
+        isSucceeded = false;
+        notifyListeners();
+      });
     }
   }
 }

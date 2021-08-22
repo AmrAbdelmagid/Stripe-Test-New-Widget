@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:provider/provider.dart';
+import 'package:stripe_new_test/services/payment.dart';
 import 'package:stripe_new_test/widgets/dashboard_page.dart';
 
 void main() {
@@ -11,12 +13,15 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      create: (_) => PaymentProvider(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: DashBoardPage(),
       ),
-      home: DashBoardPage(),
     );
   }
 }

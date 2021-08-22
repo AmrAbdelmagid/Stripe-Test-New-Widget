@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stripe_new_test/services/payment.dart';
 
 class DashBoardPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
         child: ElevatedButton(
           child: Text('Pay Amount'),
           onPressed: () {
-            // makePayment();
+            Provider.of<PaymentProvider>(context, listen: false).makePayment();
           },
         ),
       ),
